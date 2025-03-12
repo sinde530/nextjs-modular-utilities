@@ -17,7 +17,9 @@ export default function Sidebar({ open }: SidebarOpenProps) {
             animate={{ width: 280, x: 0 }}
             exit={{ width: 0, x: -300 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={'fixed top-16 bottom-0 left-0 z-30 w-[280px] border-r bg-backgroundPrimary'}
+            className={
+              'fixed top-16 bottom-0 left-0 z-30 w-[280px] border-r border-borderColor bg-backgroundPrimary'
+            }
           >
             <div className="h-full py-4">
               <div className="px-3 py-2">
