@@ -12,8 +12,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <NextThemesProvider attribute="class" defaultTheme="light" enableSystem>
-      {/* 초기 로딩 시 깜빡임 방지 */}
-      <div style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.2s ease-in-out' }}>
+      <div
+        className={`transition-colors duration-500 ease-in-out transform ${
+          mounted ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'
+        }`}
+      >
         {children}
       </div>
     </NextThemesProvider>
