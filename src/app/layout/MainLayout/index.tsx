@@ -23,7 +23,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} sidebarOpen={sidebarOpen} />
       <div className="flex flex-1 overflow-hidden">
         {/* <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} /> */}
-        <main className="flex-1 overflow-y-auto pt-16">{children}</main>
+        <main className="flex-1 overflow-y-auto pt-16 bg-backgroundPrimary">{children}</main>
       </div>
     </div>
   );

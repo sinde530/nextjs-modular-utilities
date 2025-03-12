@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface ThemeMenuOpenProps {
@@ -9,7 +10,7 @@ interface ThemeMenuOpenProps {
 }
 
 export function ThemeToggle({ closeMenu }: ThemeMenuOpenProps) {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -20,8 +21,8 @@ export function ThemeToggle({ closeMenu }: ThemeMenuOpenProps) {
     return null;
   }
 
-  const handleThemeChange = (theme: string) => {
-    setTheme(theme);
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
     closeMenu();
   };
 
@@ -39,15 +40,21 @@ export function ThemeToggle({ closeMenu }: ThemeMenuOpenProps) {
           <div className="flex flex-col gap-1">
             <div
               onClick={() => handleThemeChange('dark')}
-              className="text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer justify-center flex"
+              className={`text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer flex items-center justify-between ${
+                theme === 'dark' ? 'bg-borderColor' : ''
+              }`}
             >
-              Dark Mode
+              <span>Dark Mode</span>
+              <Moon size={18} />
             </div>
             <div
               onClick={() => handleThemeChange('light')}
-              className="text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer justify-center flex"
+              className={`text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer flex items-center justify-between ${
+                theme === 'light' ? 'bg-borderColor' : ''
+              }`}
             >
-              Light Mode
+              <span>Light Mode</span>
+              <Sun size={18} />
             </div>
           </div>
         </motion.div>

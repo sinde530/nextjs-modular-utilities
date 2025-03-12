@@ -13,8 +13,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextThemesProvider attribute="class" defaultTheme="light" enableSystem>
       <div
-        className={`transition-colors duration-500 ease-in-out transform ${
-          mounted ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'
+        className={`transition-colors duration-500 ease-in-out ${
+          mounted ? 'opacity-100' : 'opacity-0'
         }`}
       >
         {children}
