@@ -4,7 +4,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
-export function ThemeToggle() {
+interface ThemeMenuOpenProps {
+  closeMenu: () => void;
+}
+
+export function ThemeToggle({ closeMenu }: ThemeMenuOpenProps) {
   const { setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -15,6 +19,11 @@ export function ThemeToggle() {
   if (!mounted) {
     return null;
   }
+
+  const handleThemeChange = (theme: string) => {
+    setTheme(theme);
+    closeMenu();
+  };
 
   return (
     <AnimatePresence>
@@ -29,13 +38,13 @@ export function ThemeToggle() {
         >
           <div className="flex flex-col gap-1">
             <div
-              onClick={() => setTheme('dark')}
+              onClick={() => handleThemeChange('dark')}
               className="text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer justify-center flex"
             >
               Dark Mode
             </div>
             <div
-              onClick={() => setTheme('light')}
+              onClick={() => handleThemeChange('light')}
               className="text-[14px] text-textPrimary p-2 hover:bg-borderColor rounded-md cursor-pointer justify-center flex"
             >
               Light Mode

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import SidebarToggle from '../../components/Toggle/SidebarToggle';
 import HeaderItem from '@/app/HeaderItem';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bell, Moon, Search, User, X } from 'lucide-react';
 import { ThemeToggle } from '@/app/components/darkMode/ThemeToggle';
 
@@ -14,6 +14,23 @@ interface HeaderProps {
 export default function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target as Node)) {
+        setThemeMenuOpen(false);
+      }
+    }
+
+    if (themeMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [themeMenuOpen]);
 
   return (
     <header className="fixed top-0 left-0 right-0 h-16 border-b bg-backgroundPrimary border-borderColor z-40 flex items-center px-4">
@@ -64,7 +81,7 @@ export default function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
             <Bell size={22} />
           </div>
 
-          <div className="relative">
+          <div className="relative" ref={themeMenuRef}>
             <div
               onClick={() => setThemeMenuOpen(!themeMenuOpen)}
               className="hover:bg-borderColor hover:rounded-md cursor-pointer flex p-2 relative"
@@ -80,7 +97,7 @@ export default function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
                   transition={{ duration: 0.3 }}
                   className="absolute top-full right-0 rounded-md shadow-lg"
                 >
-                  <ThemeToggle />
+                  <ThemeToggle closeMenu={() => setThemeMenuOpen(false)} />
                 </motion.div>
               )}
             </AnimatePresence>
