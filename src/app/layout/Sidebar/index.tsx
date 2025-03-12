@@ -1,7 +1,18 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FolderKanban, Home } from 'lucide-react';
+import {
+  BarChart,
+  ChevronDown,
+  ChevronRight,
+  FileText,
+  HelpCircle,
+  Home,
+  Settings,
+  ShoppingCart,
+  Users,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 interface SidebarOpenProps {
   open: boolean;
@@ -41,8 +52,35 @@ function SidebarNav() {
         Home
       </NavItem>
 
-      <NavItem href="/products" icon={<FolderKanban size={22} />}>
-        Products
+      <NavGroup
+        title="Management"
+        icon={<Users size={22} />}
+        items={[
+          { href: '/users', label: 'Users', icon: <Users size={18} /> },
+          { href: '/products', label: 'Products', icon: <ShoppingCart size={18} /> },
+          { href: '/orders', label: 'Orders', icon: <FileText size={18} /> },
+        ]}
+      />
+
+      <NavGroup
+        title="Analytics"
+        icon={<BarChart size={22} />}
+        items={[
+          {
+            href: '/analytics/overview',
+            label: 'Overview',
+            icon: <BarChart size={17} />,
+          },
+          { href: '/analytics/reports', label: 'Reports', icon: <FileText size={18} /> },
+        ]}
+      />
+
+      <NavItem href="/settings" icon={<Settings size={22} />}>
+        Settings
+      </NavItem>
+
+      <NavItem href="/help" icon={<HelpCircle size={22} />}>
+        Help & Support
       </NavItem>
     </div>
   );
@@ -67,5 +105,68 @@ function NavItem({ href, icon, children }: NavItemProps) {
     >
       {icon} <p>{children}</p>
     </Link>
+  );
+}
+
+interface NavGroupProps {
+  title: string;
+  icon: React.ReactNode;
+  items: {
+    href: string;
+    label: string;
+    icon: React.ReactNode;
+  }[];
+}
+
+function NavGroup({ title, icon, items }: NavGroupProps) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = items.some((item) => pathname === item.href);
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(!open)}
+        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-borderColor ${
+          isActive ? 'bg-borderColor text-textPrimary' : 'text-textSecondary'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          {icon}
+          <p>{title}</p>
+        </div>
+        {open ? <ChevronDown size={22} /> : <ChevronRight size={22} />}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="pl-6 pt-1">
+              {items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium bg-backgroundPrimary transition-all hover:bg-borderColor
+                    ${
+                      pathname === item.href
+                        ? 'bg-borderColor text-textPrimary'
+                        : 'text-textSecondary'
+                    }`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
