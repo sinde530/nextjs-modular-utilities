@@ -127,7 +127,7 @@ function NavGroup({ title, icon, items }: NavGroupProps) {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-borderColor ${
+        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all cursor-pointer hover:bg-borderColor ${
           isActive ? 'bg-borderColor text-textPrimary' : 'text-textSecondary'
         }`}
       >
