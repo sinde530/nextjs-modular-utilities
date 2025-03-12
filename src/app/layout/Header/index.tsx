@@ -88,6 +88,7 @@ export default function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
             >
               <Moon size={22} />
             </div>
+
             <AnimatePresence>
               {themeMenuOpen && (
                 <motion.div
