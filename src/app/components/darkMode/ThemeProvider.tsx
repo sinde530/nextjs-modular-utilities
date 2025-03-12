@@ -11,7 +11,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+    <NextThemesProvider attribute="class" defaultTheme="light" enableSystem>
       {/* 초기 로딩 시 깜빡임 방지 */}
       <div style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.2s ease-in-out' }}>
         {children}
